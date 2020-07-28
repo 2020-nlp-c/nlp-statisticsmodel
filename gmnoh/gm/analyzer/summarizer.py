@@ -23,12 +23,12 @@ class textSummarize():
 
     # 자카드 유사도 행렬
     def jaccard_arr(self):
-        for i in range(len(s_list)):
-            self.edge_arr.append([0 for i in range(len(s_list))])
+        for i in range(len(self.s_list)):
+            self.edge_arr.append([0 for i in range(len(self.s_list))])
     
         for i in range(len(self.edge_arr) - 1):
             for j in range(i + 1, len(self.edge_arr)):
-                self.edge_arr[i][j], self.edge_arr[j][i] = self.jaccard(s_list[i], s_list[j]), self.jaccard(s_list[i], s_list[j])
+                self.edge_arr[i][j], self.edge_arr[j][i] = self.jaccard(self.s_list[i], self.s_list[j]), self.jaccard(self.s_list[i], self.s_list[j])
 
     # 첫번째 스코어
     def first_score(self):
