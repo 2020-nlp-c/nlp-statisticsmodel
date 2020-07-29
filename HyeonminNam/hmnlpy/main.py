@@ -1,6 +1,8 @@
+#LuhnSummarize test
+
 from analyzer.LuhnSummarize import LuhnSummarize
 
-text = text = '''코로나/19/ 대응 의료 인공지능 컨소시엄 출범 산학연병 인공지능 전문가 20여 명으로 구성, 기술‧응용 공동 연구
+text = '''코로나/19/ 대응 의료 인공지능 컨소시엄 출범 산학연병 인공지능 전문가 20여 명으로 구성, 기술‧응용 공동 연구
 지난 8일, 창립준비 모임…미영상의학회 COVID-19 컨소시엄과도 협력
 
 코로나19 바이러스의 세계적 감염 유행에 효과적으로 대응하기 위해 관련 전문가들이 모인 ‘코로나19 감염 대응을 위한 의료 인공지능 컨소시엄’이 9월 1일에 출범한다. 
@@ -20,6 +22,23 @@ text = text = '''코로나/19/ 대응 의료 인공지능 컨소시엄 출범 �
 한편 오는 7월 24일(금)에는 온라인 워크숍을 개최해 코로나 19 감염대응 의료 인공지능 관련 동향발표 및 연구개발 사례 소개가 있을 예정이다.'''
 
 
+sent_tokenize(text)
+
 ls = LuhnSummarize(text)
 ls.keyword(0.01, 0.5)
 ls.keysentence(3)
+
+
+
+#TextSummarize test
+
+text = '딸기 바나나 사과 파인애플 수박. 바나나 사과 딸기 포도. 복숭아 수박. 파인애플 사과 딸기 바나나.'
+damp = 0.85
+threshold = 0.001
+
+test = TextSummarize(text)
+
+test.edge()
+
+test.score(0.001, 0.85)
+
