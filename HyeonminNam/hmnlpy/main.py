@@ -22,4 +22,4 @@ text = text = '''코로나/19/ 대응 의료 인공지능 컨소시엄 출범 �
 
 ls = LuhnSummarize(text)
 ls.keyword(0.01, 0.5)
-ls.keysentence()
+ls.keysentence(3)
