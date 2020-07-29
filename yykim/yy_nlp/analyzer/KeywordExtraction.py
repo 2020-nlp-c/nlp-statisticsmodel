@@ -23,4 +23,5 @@ class TfIdf():
         return dict(zip(self._make_token_list().keys(), -np.log(idf/len(self.docs))))
     
     def cal_tfidf(self, target_doc):
-        return np.array(list(self._cal_tf(target_doc).values()))*np.array(list(self._cal_idf().values()))
+        tfidf = np.array(list(self._cal_tf(target_doc).values()))*np.array(list(self._cal_idf().values()))
+        return dict(zip(self._make_token_list(), tfidf))
