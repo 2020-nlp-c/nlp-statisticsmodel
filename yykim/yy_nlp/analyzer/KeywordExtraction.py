@@ -1,50 +1,26 @@
-class TfIdf:
-    def __init__(self, a, docs): #a는 문장1개, docs는 bunch(리스트화 한거)
-        self.a = a
+class TfIdf():
+    def __init__(self, docs):
         self.docs = docs
-        self.total = []
-        self.a_count = []
-        self.a_token = []
-        self.idf = 1
     
-    def total_token(self):
+    def _make_token_list(self):
+        total_tokens = []
         for doc in self.docs:
-            doc_token = doc.split(" ")
-            self.total.extend(doc_token)
-        #전체 토큰의 개수 세기
-        total_unique = np.unique(self.total)        
-        return total_unique
+            total_tokens.extend(doc)
+        total_unique_tokens = list(set(total_tokens))    
+        total_unique_tokens = dict(zip(total_unique_tokens, [i for i in range(len(total_unique_tokens))]))
+        return total_unique_tokens
+  
+    def _cal_tf(self, target_doc):
+        tf = {}
+        for idx, token in enumerate(self._make_token_list()):
+            tf.setdefault(token, target_doc.count(token)/len(target_doc))
+        return tf
+
+    def _cal_idf(self):
+        idf = np.zeros((len(self._make_token_list())))
+        for doc in self.docs:
+            idf += np.array([0 if tf==0 else 1 for tf in self._cal_tf(doc).values()])
+        return dict(zip(self._make_token_list().keys(), -np.log(idf/len(self.docs))))
     
-    def count_token(self):
-        #토크나이징
-        self.a_token = self.a.split(" ")
-
-        #해당 문서에 토큰 개수 세기 
-        self.a_count = []
-        for token in self.total:
-            self.a_count.append(self.a_token.count(token))
-        self.a_count = np.array([self.a_count])
-
-        return self.a_count
-
-    def get_tf(self):
-        return self.a_count/len(self.a_token)
-
-    def get_idf(self):
-        tmp=[]
-        for doc in self.docs: #문서 번치에서 문서 하나씩 빼냄
-            doc_token = doc.split(" ") #문서 토크나이징
-            doc_count = []  
-            for token in self.total:
-                doc_count.append(doc_token.count(token))           
-            tmp.append(np.array([0 if i == 0 else 1 for i in doc_count]))
-
-        nt = np.zeros((len(self.total),))
-        for i in tmp:
-            nt += i
-        self.idf = np.log(len(self.docs)/nt)
-
-        return self.idf
-
-    def get_tf_idf(self):
-        return self.a_count*self.idf
+    def cal_tfidf(self, target_doc):
+        return np.array(list(self._cal_tf(target_doc).values()))*np.array(list(self._cal_idf().values()))
