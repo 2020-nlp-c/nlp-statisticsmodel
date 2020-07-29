@@ -2,7 +2,7 @@ from konlpy.tag import Kkma
 import pandas as pd
 
 class luhnSummarize():
-    def __init__(self, document, min, max):
+    def __init__(self, document, min=0.001, max=0.5):
         self.doc = document
         self.min = min
         self.max = max
@@ -64,7 +64,7 @@ class luhnSummarize():
             self.importance.append(len(sig_word)*len(sig_word) / length)
 
     # 문장 중요도 순위별 출력
-    def result(self):
+    def summarize(self):
         self.get_kkma_token()
         self.get_freq()
         self.get_word()

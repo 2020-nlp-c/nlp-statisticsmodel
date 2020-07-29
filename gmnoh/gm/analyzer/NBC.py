@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 class nbc():
-    def __init__(self, data, k, keywords):
+    def __init__(self, data, k=0.5, keywords):
         self.data = data
         self.k = k
         self.keywords = keywords
