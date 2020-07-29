@@ -22,8 +22,6 @@ text = '''코로나/19/ 대응 의료 인공지능 컨소시엄 출범 산학연
 한편 오는 7월 24일(금)에는 온라인 워크숍을 개최해 코로나 19 감염대응 의료 인공지능 관련 동향발표 및 연구개발 사례 소개가 있을 예정이다.'''
 
 
-sent_tokenize(text)
-
 ls = LuhnSummarize(text)
 ls.keyword(0.01, 0.5)
 ls.keysentence(3)
@@ -31,6 +29,9 @@ ls.keysentence(3)
 
 
 #TextSummarize test
+
+from analyzer.TextSummarize import TextSummarize
+
 
 text = '딸기 바나나 사과 파인애플 수박. 바나나 사과 딸기 포도. 복숭아 수박. 파인애플 사과 딸기 바나나.'
 damp = 0.85
