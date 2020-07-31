@@ -1,21 +1,15 @@
 import numpy as np
 
 class textRank:
-    def __init__(self, txt):
+    def __init__(self, txt, window_size = 2, threshold = 0.01, max_iter = 50):
         self.txt_split = txt.split()
         self.txt_list = list(set(self.txt_split))
-        self.window_size = 2
-        self.threshold = 0.01
-        self.max_iter = 50
+        self.window_size = window_size
+        self.threshold = threshold
+        self.max_iter = max_iter
     
     def zero_array(self):
-        self.arr = []
-
-        for i in range(len(self.txt_list)):
-            temp = []
-            for j in range(len(self.txt_list)):
-                temp.append(0)
-            self.arr.append(temp)
+        self.arr = np.zeros([len(self.txt_list), len(self.txt_list)])
 
     def nodes(self):
         self.node = [1 for i in range(len(self.txt_list))]
@@ -59,7 +53,7 @@ class textRank:
         for i in range(len(self.node)):
             self.node[i] = self.new_node[i]
 
-    def result(self):
+    def keyword(self):
         self.nodes()
 
         for i in range(self.max_iter):
@@ -70,10 +64,5 @@ class textRank:
 
             if min(self.diff) <= self.threshold:
                 break
-        
-            print('array')
-            print(self.arr)
-            print('node')
-            print(self.node)
-        
-            print(self.txt_list[self.diff.index(max(self.diff))])
+
+        return self.txt_list[self.diff.index(max(self.diff))]

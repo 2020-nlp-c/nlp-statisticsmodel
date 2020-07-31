@@ -2,36 +2,32 @@ import numpy as np
 import pandas as pd
 
 class nbc():
-    def __init__(self, data, k=0.5, keywords):
-        self.data = data
+    def __init__(self, content, all_cls, keywords, k = 0.5):
+        self.content = content
+        self.all_cls = all_cls
         self.k = k
         self.keywords = keywords
-        self.cls = list(pd.unique(data['class']))
+        self.cls = list(set(all_cls))
 
-
-    # class 분류
-    def classification(self):
+    def train(self):
+        # class 분류
         self.cls_doc = []
 
         for i in self.cls:
             tmp = []
-            for j in range(len(self.data['class'])):
-                if self.data['class'][j] == i:
-                    tmp.append(self.data['content'][j])
+            for j in range(len(self.all_cls)):
+                if self.all_cls[j] == i:
+                    tmp.append(self.content[j])
             self.cls_doc.append(tmp)
 
-
-    # class별 확률
-    def class_prob(self):
+        # class별 확률
         self.cls_prob = []
 
         for i in range(len(self.cls)):
-            prob = np.log(len(self.cls_doc[i]) / len(self.data['class']))
+            prob = np.log(len(self.cls_doc[i]) / len(self.all_cls))
             self.cls_prob.append(prob)
 
-
-    # class별 토큰화
-    def class_tokening(self):
+        # class별 토큰화
         self.cls_token = []
 
         for i in self.cls_doc:
@@ -43,9 +39,7 @@ class nbc():
             self.tokens = set(self.tokens).union(set(i))
         self.tokens = list(self.tokens)
 
-
-    # 각 class 단어별 log 확률
-    def word_prob(self):
+        # 각 class 단어별 log 확률
         self.cls_cnt = []
 
         for i in self.cls_token:
@@ -56,8 +50,7 @@ class nbc():
         for i in self.cls_cnt:
             self.cls_log.append([np.log((j+self.k)/(2*self.k+sum(i))) for j in i])
 
-
-    def get_prob_with_word(self):
+    def predict(self):
         # 각 class별 keyword 토큰이 들어있을 확률
         self.cls_prob_word = []
 
@@ -77,13 +70,8 @@ class nbc():
         for i in range(len(self.cls)):
             self.cls_result.append(self.cls_prob_word[i] / sum)
 
-
     def get_prob(self):
-        self.classification()
-        self.class_prob()
-        self.class_tokening()
-        self.word_prob()
-        self.get_prob_with_word()
-
-        for i in range(len(self.cls)):
-            print('{}일 확률: {}'.format(self.cls[i], self.cls_result[i]))
+        self.train()
+        self.predict()
+        
+        return dict(zip(self.cls, self.cls_result))
