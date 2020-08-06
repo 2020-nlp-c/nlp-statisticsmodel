@@ -1,12 +1,13 @@
 
 class NaiveBayesClassifier:
-    def __init__(self, docs = [], labels = [], words=[], k = 1, package= 'manual'):
+    def __init__(self, docs, labels, words, k = 1, package= 'manual'):
     # docs는 토큰화한 문서들을 리스트화 한 이중 리스트
         self.docs = docs
         self.labels = labels
-        self.k = k #laplace smoothing을 위한 상수 k
         self.words = words
+        self.k = k #laplace smoothing을 위한 상수 k
         self.package = package 
+        
         self.total_token = []
         self.unique_token = np.array((1,1))
         self.category_name=[]
