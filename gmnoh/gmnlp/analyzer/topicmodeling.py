@@ -1,7 +1,3 @@
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import randomized_svd
-import numpy as np
-
 class LSA():
     def __init__(self, doc_ls, topic_num):
         self.doc_ls = doc_ls
