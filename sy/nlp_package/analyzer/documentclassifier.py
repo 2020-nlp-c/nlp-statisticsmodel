@@ -4,7 +4,7 @@ class NaiveBayesClassfier():
         pass
 
     # 사전확률 , 우도 학습
-    def train(self, docs, labels):
+    def train(self, docs, labels, k=0.5, model= "nbc.model"):
         # label 별 인덱스 지정
         import numpy as np
         label_ls = np.unique(labels)
@@ -28,6 +28,7 @@ class NaiveBayesClassfier():
                     nbc_dic[w][label_dic[labels[i]]] = 1
                 label_count[label_dic[labels[i]]] += 1
             
+            # 확률계산
             for w in nbc_dic.keys() :
                 # 라벨별로 빈도계산을 위한 루프 
                 
@@ -35,6 +36,11 @@ class NaiveBayesClassfier():
                 for label in label_dic.keys() :
                     nbc_dic[w][label_dic[label] +len(label_ls) *1] = (k + nbc_dic[w][label_dic[label]]) /( 2*k + label_count[label_dic[label]])
                     nbc_dic[w][label_dic[label] +len(label_ls) *2] = np.log((k + nbc_dic[w][label_dic[label]]) /( 2*k + label_count[label_dic[label]]))
+            self.nbc_dic = nbc_dic
+
+            import pickle 
+            with open(model, 'wb') as f:
+                pickle.dump(self.nbc_dic, f)
 
         print('test')
 
